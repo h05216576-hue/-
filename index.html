@@ -1,14 +1,90 @@
 
+```html
 <!DOCTYPE html>
-<html>
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>سجل المتابعة والتطوير</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سجل المتابعة والتطوير التفاعلي</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; background-color: #f0f2f5; color: #333; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1 { color: #1a73e8; text-align: center; margin-bottom: 25px; }
+        .section { margin-bottom: 20px; padding: 15px; border-radius: 8px; background-color: #f8f9fa; border: 1px solid #e0e0e0; }
+        h2 { color: #5f6368; font-size: 1.1rem; margin-top: 0; }
+        .data-display { font-size: 1.2rem; font-weight: bold; color: #202124; margin: 10px 0; min-height: 30px; }
+        .input-group { display: flex; gap: 10px; margin-top: 10px; }
+        input[type="text"] { flex-grow: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
+        button { padding: 10px 20px; background-color: #1a73e8; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; transition: background-color 0.2s; }
+        button:hover { background-color: #1557b0; }
+        .history-log { margin-top: 20px; max-height: 150px; overflow-y: auto; font-size: 0.9rem; color: #666; border-top: 1px solid #eee; padding-top: 10px; }
+    </style>
 </head>
 <body>
-<h1>سجل المتابعة والتطوير</h1>
-<div id="timestamp"><h2>الطابع الزمني</h2>18/11/2026 / 9:06</div>
-<div id="resonance-data"><h2>بيانات الرنين</h2>8</div>
-<div id="training-log"><h2>سجل التدريبات</h2>تدريب توقعات لعبة الحظ</div>
+
+<div class="container">
+    <h1>سجل المتابعة والتطوير</h1>
+    
+    <div class="section">
+        <h2>الطابع الزمني الحالي</h2>
+        <div class="data-display" id="timestamp-display">جاري التحميل...</div>
+        <button onclick="updateTimestamp()">تحديث الوقت الآن</button>
+    </div>
+
+    <div class="section">
+        <h2>بيانات الرنين</h2>
+        <div class="data-display" id="resonance-display">لا توجد بيانات</div>
+        <div class="input-group">
+            <input type="text" id="resonance-input" placeholder="أدخل بيانات الرنين الجديدة...">
+            <button onclick="updateData('resonance-display', 'resonance-input', 'سجل الرنين')">حفظ</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>سجل التدريبات</h2>
+        <div class="data-display" id="training-display">لم يتم تسجيل تمارين</div>
+        <div class="input-group">
+            <input type="text" id="training-input" placeholder="أدخل تفاصيل التمرين...">
+            <button onclick="updateData('training-display', 'training-input', 'سجل التدريب')">إضافة</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>سجل التحديثات</h2>
+        <div class="history-log" id="history-log">بدء تشغيل السجل.</div>
+    </div>
+</div>
+
+<script>
+    function updateTimestamp() {
+        const now = new Date().toLocaleString('ar-EG', { dateStyle: 'full', timeStyle: 'medium' });
+        document.getElementById('timestamp-display').innerText = now;
+        logHistory('تم تحديث الطابع الزمني: ' + now);
+    }
+
+    function updateData(displayId, inputId, logPrefix) {
+        const inputVal = document.getElementById(inputId).value;
+        if (inputVal.trim() !== "") {
+            document.getElementById(displayId).innerText = inputVal;
+            logHistory(logPrefix + ': ' + inputVal);
+            document.getElementById(inputId).value = "";
+        } else {
+            alert("يرجى إدخال نص صحيح.");
+        }
+    }
+
+    function logHistory(message) {
+        const logDiv = document.getElementById('history-log');
+        const time = new Date().toLocaleTimeString('ar-EG');
+        logDiv.innerHTML += `<div>[${time}] ${message}</div>`;
+        logDiv.scrollTop = logDiv.scrollHeight;
+    }
+
+    // Initialize timestamp on load
+    window.onload = updateTimestamp;
+</script>
+
 </body>
 </html>
+
+```
